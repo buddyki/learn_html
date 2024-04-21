@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="description" content="Homepage">
+		<meta name="author" content="xiang">
+		<meta http-equiv="refresh" content="30">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>xiang</title>
+
+		<style>
+	        .image-text-container {
+	            display: flex;
+	            align-items: center;
+	        }
+
+	        .image-text-container img {
+	            margin-right: 10px;
+	            max-width: 100px; /* 设置图片最大宽度为100像素 */
+		        max-height: 4.1em; /* 设置图片最大高度为两行文字的高度 */
+	        }
+	    </style>
+
+	    <style>
+	        .center {
+	            display: flex;
+	            justify-content: center;
+	            align-items: center;
+	            height: 30vh;
+	        }
+	    </style>
+
+		<style type="text/css">
+		body {background-color:white;}
+		h1 {color:brown;}
+		p {color:black;}
+
+		</style>
+
+	</head>
+<form name="input" action="html_form_action.php" method="get">
+	<div class="image-text-container">
+        <img src="image/icon.jpeg" alt="Description of Image">
+        <script> document.write("Wish you happy!");</script><br>
+		<script> document.write("Enjoy your gaming time!");</script>
+    </div>
+
+</form>
+<body>
+	<h1>Start game</h1>
+    <form id="loginForm" action="/login" method="post">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username"><br>
+
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password"><br>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // Mock authentication
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            
+            if (username === '' && password === ''){
+            	window.location.href = 'Water_circles.html';
+            } else if (username === 'xiang' && password === 'admin') {
+                window.location.href = 'Water_circles.html';
+            } else {
+                alert('Invalid username or password. Please try again.');
+            }
+        });
+    </script>
+
+	<div class="center">
+	    <img src="image/identity.gif" alt="Animated GIF">
+    </div>
+
+</body>
+
+</html>
+

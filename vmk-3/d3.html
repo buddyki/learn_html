@@ -1,0 +1,174 @@
+<html>
+<body onkeydown="chnn(event.keyCode)"> <!--键盘按键被按下时触发的事件，event.keyCode键盘键码-->
+<table border=1 width=50> <!--带有实线边框且宽度为500像素的表格-->
+
+<!--行（<tr>）列（<td>）标题（<th>）-->
+  <tr> <!--行1）-->
+    <td> <!--列1）-->
+      <canvas id='draw2' onmousedown="drawline2(event.clientX, event.clientY);" width='300' height='150' style='border:1px solid'>
+  <!--当鼠标在canvas上按下时，会触发drawline2函数，并将鼠标按下时X和Y坐标作为参数传递给该函数-->
+      </canvas> 
+    </td>
+
+    <td> <!--列1）-->
+      <form name = "set2" onsubmit = "return false;"> 
+        <!--当用户试图提交这个表单时，会阻止默认的表单提交行为-->
+        X:<br> 
+        <input type = "text" name = "x"> <br>
+        Y:<br> 
+        <input type = "text" name = "y"> <br>
+      </form>
+    </td>
+  </tr>
+
+  <tr> <!--行2）-->
+    <td> <!--列1）-->
+      <canvas id='draw3' onmousedown="clear3();" onmousemove="drawline3(event.clientX, event.clientY);" width='300' height='150' style='border:1px solid'></canvas> 
+    </td>
+
+    <td> <!--列2）-->
+      <form name = "set3" onsubmit = "return false;">
+        X:<br> 
+        <input type = "text" name = "x"> <br>
+        Y:<br> 
+        <input type = "text" name = "y"> <br>
+      </form>
+    </td>
+  </tr>
+
+  <tr> <!--行3）-->
+    <td width=300> <!--列1）-->
+      <canvas id='draw' width='300' height='150' style='border:1px solid'>
+      </canvas> 
+    </td>
+
+    <td width=200> <!--列2）-->
+      <form name="set" onsubmit="return false;">
+
+      Enter lowercase text:<br>
+      <input type="text" onchange="cht(this.value)"> <br>
+      <!--当输入框的内容改变时,将输入框当前的值作为参数传递给该函数cht()-->
+
+      Enter uppercase text:<br>
+      <input type="text" onkeyup="this.value = this.value.toUpperCase();"> <br>
+      <!--即键盘按键抬起时，会触发onkeyup事件-->
+
+      Enter speed:<br>
+      <input type="text" name = "t3"> <br>
+
+        <fieldset> <!--将相关表单元素组织在一起，不同种类的表单元素-->
+          <legend> Color </legend> <!--标题 "Color"-->
+            What color? <br>
+            <!--radio 单选按钮-->
+            <!--checked 将被默认选中-->
+            <!--相同的name="chn2"属性，组成一个单选按钮组，只能一个选项-->
+            <input type="radio" value="green" checked name="chn2" onchange="chs(this.value)"> Green <br> 
+            <input type="radio" value="red" name="chn2" onchange="chs(this.value)"> Red <br>
+            <input type="radio" value="blue" name="chn2" onchange="chs(this.value)"> Blue <br>
+        </fieldset>
+
+
+        <fieldset>
+          <legend> Direction </legend>
+            Where?<br>
+            <input type="radio" checked name="chn" onchange="n=1"> Right <br>
+            <input type="radio" name="chn" onchange="n=-1"> Left <br>
+        </fieldset>
+      </form>
+    </td>
+
+  </tr>
+</table>
+
+<script type='text/javascript'>
+
+// òóò áóäóò ôóíêöèè 
+
+var canvas=document.getElementById("draw") //第三行
+var ctx=canvas.getContext("2d");
+ctx.strokeStyle = "green" //绘制线条或描绘形状的轮廓时使用的颜色
+ctx.lineWidth = 5 
+ctx.fillStyle = "red" //填充的颜色
+ctx.font = " 25px Arial" //设置文本字体的样式
+var canvas=document.getElementById("draw2")
+var ctx2=canvas.getContext("2d");
+var canvas=document.getElementById("draw3")
+var ctx3=canvas.getContext("2d");
+
+var x=150, y=50, dx=5, dy=5, nx=1, ny=0
+var speed=200, dx2=12, dy2=12, dx3=12, dy3=171
+
+function chnn(k) //37左、38上、39右、40下
+{
+    if((k >= 37) && (k<=40))
+    {
+      nx = (k==37)?-1:(k==39)?1:0
+      ny = (k==38)?-1:(k==40)?1:0
+    }
+}
+
+function drawline()
+{ 
+    ctx.beginPath()
+    ctx.moveTo(x,y)
+    x+=nx*dx
+    y+=ny*dy
+    speed -= 1
+    document.set.t3.value=speed //将变量 speed 的值更新到文档中一个表单元素
+    ctx.lineTo(x,y)
+    ctx.stroke()
+    ctx.closePath()
+
+    if((x>=0) && (x <= canvas.width) && (y>=0) && (y <= canvas.height))
+        setTimeout(drawline, speed)
+    else ctx.fillText('done', 10, 130)
+}
+
+
+function cht(k)
+{
+    ctx.fillText(k, 10, 100) //k-文本内容, 10-起始x坐标, 100-起始y坐标
+}
+
+function chs(k)
+{
+    ctx.strokeStyle=k //设置绘制路径时的描边样式
+}
+
+
+
+drawline()
+
+ctx2.beginPath()
+ctx2.moveTo(0,0)
+
+ctx3.beginPath()
+ctx3.moveTo(0,0)
+ctx3.fillStyle="white"
+
+function drawline2(newx,newy) //行1
+{
+    ctx2.lineTo(newx-dx2, newy-dy2)
+    ctx2.stroke()
+    document.set2.x.value = newx-dx2 //显示在文本框内
+    document.set2.y.value = newy-dy2
+}
+
+function drawline3(newx,newy) //行2
+{
+    ctx3.lineTo(newx-dx3, newy-dy3)
+    ctx3.stroke()
+    document.set3.x.value = newx-dx3
+    document.set3.y.value = newy-dy3
+}
+
+
+function clear3()
+{
+    ctx3.closePath()
+    ctx3.fillRect(0,0,300,150) //起点+宽度高度
+    ctx3.beginPath()
+}
+</script> 
+</body>
+</html>

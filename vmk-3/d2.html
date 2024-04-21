@@ -1,0 +1,131 @@
+<html>
+<body>
+<canvas id='draw' style='border:1px solid'></canvas> 
+<script type='text/javascript'>
+
+//<canvas>：HTML5提供的一个用于绘制图形、动画等的元素。
+//id='draw'：给这个canvas元素指定了一个id属性为draw
+//style='border:1px solid'：通过内联样式为这个canvas元素设置了一个边框，边框为1像素的实线。
+
+
+var canvas=document.getElementById("draw")
+canvas.width=window.innerWidth-20 //浏览器窗口的宽度减去20像素
+canvas.height=window.innerHeight-20 //浏览器窗口的高度减去20像素
+var ctx=canvas.getContext("2d"); //获取了canvas元素的2D上下文对象
+                                 //Canvas元素本身只是一个画布，没有直接的绘图功能
+var x1=0,y1=30,dx=5,dy=0
+
+//ctx.moveTo(x, y) 只是移动绘图位置
+//ctx.lineTo(x, y) 方法用于指定从当前绘图位置到目标点 (x, y) 的直线路径
+
+function drawline()
+{
+    ctx.beginPath()
+    ctx.moveTo(x1, y1)
+    x1+=dx
+    y1+=dy
+    ctx.lineTo(x1, y1)
+    ctx.stroke()
+    ctx.closePath()
+    if(x1 <= canvas.width)
+        setTimeout(drawline, 100) //等待指定的时间（这里是10毫秒）后执行传入的函数。
+}
+
+var x2=canvas.width/2,y2=canvas.height/2,dx2=5,dy2=5
+function drawran()
+{
+    ctx.beginPath()
+    ctx.moveTo(x2, y2)
+
+    //k1=(2*Math.random())>1?1:-1
+    //k2=(2*Math.random())>1?1:-1
+    //x2+=k1*dx2
+    //y2+=k2*dy2
+//
+    x2+=20-Math.round(40*Math.random())
+    y2+=20-Math.round(40*Math.random())
+    ctx.lineWidth=5*Math.random()+1
+
+    ctx.lineTo(x2, y2)
+    ctx.strokeStyle="rgb(" + Math.round(255*Math.random()) 
+                           + "," + Math.round(255*Math.random()) 
+                           + "," + Math.round(255*Math.random()) + ")"
+    ctx.stroke()
+    ctx.closePath()
+    if((x2 <= canvas.width) && (x2 >= 0) && (y2 <= canvas.height) && (y2 >= 0))
+        setTimeout(drawran, 100)
+}
+
+drawline()
+drawran()
+
+function dot(x1, y1, r)
+{
+    ctx.beginPath()
+    //ctx.arc(x1, y1, r, 0, 2*Math.PI, true)
+    ctx.arc(x1,y1,r,0,2*Math.PI,true) //在Canvas上绘制一条弧线
+                                      //true为逆时针，false为顺时针。
+    ctx.fill();
+    ctx.closePath();
+
+}
+//dot(100,100,10)
+
+function line(x1, y1, x2, y2, wh)
+{
+    ctx.beginPath()
+    ctx.lineWidth=wh
+    ctx.moveTo(x1, y1)
+    ctx.lineTo(x2, y2)
+    ctx.stroke()
+    ctx.closePath()
+
+}
+//line(11,11,111,111,5)
+
+
+//Math.floor 向下取整，最终的结果是一个整数。
+function Circles(params)
+{
+    var x1=0, y1=0, x2=0, y2=0, fi1=0, fi2=0
+    function drawo()
+    {
+        //params.clockwise1: 这是一个条件值。true顺 false逆时针
+        fi1=(params.clockwise1) ? fi1-params.inc : fi1+params.inc
+        fi2=(params.clockwise2) ? fi2-params.inc : fi2+params.inc
+        x1 = Math.floor(Math.sin(fi1)*params.rad1 +params.center1.x)
+        y1 = Math.floor(Math.cos(fi1)*params.rad1 +params.center1.y)
+        x2 = Math.floor(Math.sin(fi2)*params.rad2 +params.center2.x)
+        y2 = Math.floor(Math.cos(fi2)*params.rad2 +params.center2.y)
+        dot(x1, y1, 1)
+        dot(x2, y2, 1)
+        line(x1, y1, x2, y2, 0.1)
+        if(Math.abs(fi1) <= 2*Math.PI)
+        setTimeout(drawo,params.timeout)
+    }
+    drawo()
+}
+Circles({
+    center1:{x:200, y:250},
+    center2:{x:400, y:450},
+    rad1:150,
+    rad2:150,
+    inc:0.03,
+    timeout:10,
+    clockwise1:false,
+    clockwise2:false
+});
+
+Circles({
+    center1:{x:400, y:250},
+    center2:{x:600, y:450},
+    rad1:150,
+    rad2:50,
+    inc:0.03,
+    timeout:10,
+    clockwise1:true,
+    clockwise2:true
+});
+</script> 
+</body>
+</html>

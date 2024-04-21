@@ -1,0 +1,121 @@
+<html>
+<body>
+<!--创建了一个ID为'draw'的画布（canvas），设置了宽度为400像素，高度为300像素，并且应用了一个1像素宽的实线边框样式-->
+<canvas id='draw' width='400' height='300' style='border:1px solid'></canvas> 
+<canvas id='draw1' width='400' height='300' style='border:1px solid'></canvas>
+<canvas id='draw2' width='400' height='300' style='border:1px solid'></canvas>  
+<canvas id='draw3' width='400' height='300' style='border:1px solid'></canvas>  
+<canvas id='draw4' width='400' height='300' style='border:1px solid'></canvas>  
+<script type='text/javascript'>//这段脚本是用 JavaScript 编写的
+//通过 <script> 标签可以嵌入 JavaScript 代码，用来实现页面的交互
+
+// òóò áóäóò ôóíêöèè 
+function draw1()
+{
+
+  for (var t=0;t<2*Math.PI;t+=0.005)
+  {
+    R=0.5 + 3*Math.cos(4*t);
+    x.fillRect(200+50*R*Math.cos(t), 150+40*R*Math.sin(t),1,1) 
+  }
+}
+
+function draw2()
+{
+
+  for (var t=0;t<2*Math.PI;t+=0.005)
+  {
+    R=0.5 + 3*Math.cos(4*t);
+    //x1.fillRect(x, y, width, height)将在Canvas上以提供的参数绘制一个填充矩形。
+    x1.fillRect(200+50*R*Math.cos(t), 150+40*R*Math.sin(t),1,1) 
+    for (var j=0;j<Math.abs(R);j+=0.005)
+    {
+        //这个方法用于设置填充的样式。你可以设置为颜色值、渐变对象或者图案对象
+        x1.fillStyle="rgb(73," + 255*j/Math.abs(R) + ",73)"
+        x1.fillRect(200+50*j*Math.cos(t), 150+40*j*Math.sin(t),1,1) 
+    }
+  }
+}
+
+function draw3()
+{
+
+  for (var t=0;t<2*Math.PI;t+=0.005)
+  {
+    R=0.5 + 3*Math.cos(4*t); //用于绘制的半径值R
+    x2.beginPath(); //开始一个新的路径。会清除之前定义的路径，重新设置路径起点，
+    x2.moveTo(200,150) // 移动绘图游标到指定的坐标(200,150）
+    x2.lineWidth=1; //设置绘制线条的宽度为1个像素
+    x2.lineTo(200+50*R*Math.cos(t), 150+40*R*Math.sin(t)) //绘制一条从当前点到另一点的直线段
+                                                          //记录路径,没有真正绘制
+    x2.strokeStyle="rgb(73," + 50*t + ",73)"
+    x2.stroke(); //绘制路径
+    x2.closePath(); //关闭路径，形成一个封闭图形
+  }
+}
+
+function draw4()
+{
+
+  x3.beginPath();
+  R=0.5 + 3
+  x3.moveTo(200+50*R, 150)  
+  x3.linewidth=4
+
+
+  for (var t=0;t<2*Math.PI;t+=0.005)
+  {
+    R=0.5 + 3*Math.cos(4*t);
+    x3.lineTo(200+50*R*Math.cos(t), 150+40*R*Math.sin(t),1,1) 
+    
+  }
+
+  x3.stroke();
+  x3.closePath();
+  x3.fill()
+}
+
+function draw5()
+{
+
+  for (var t=0;t<2*Math.PI;t+=0.005)
+  {
+    R=0.5*t *Math.sin(4*t);
+    x4.fillRect(200+50*R*Math.cos(t), 150+40*R*Math.sin(t),1,1) 
+  }
+}
+
+// 这行代码通过getElementById()方法获取id为'draw'的canvas元素，并将其存储在变量canvas中。
+var canvas=document.getElementById("draw")//获取HTML文档中具有指定id属性的元素
+var x=canvas.getContext("2d"); //进行二维绘图操作。
+x.fillStyle="green" //当前绘图的填充颜色设置为绿色
+//x.fillStyle="rgb(73,255,73)"
+draw1()
+
+
+var canvas=document.getElementById("draw1")
+var x1=canvas.getContext("2d");
+//x1.fillStyle="rgb(73,255,73)"
+
+draw2()
+
+var canvas=document.getElementById("draw2")
+var x2=canvas.getContext("2d");
+x2.strokeStyle="rgb(73,255,73)"
+draw3()
+
+var canvas=document.getElementById("draw3")
+var x3=canvas.getContext("2d");
+x3.strokeStyle="green"
+x3.fillStyle="rgb(73,255,73)"
+draw4()
+
+var canvas=document.getElementById("draw4")
+var x4=canvas.getContext("2d");
+x4.strokeStyle="green"
+x4.fillStyle="rgb(73,255,73)"
+draw5()
+
+</script> 
+</body>
+</html>

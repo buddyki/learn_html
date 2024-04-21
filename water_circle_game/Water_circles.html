@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>xiang</title>
+
+    <style>
+          .image-text-container {
+              display: flex;
+              align-items: center;
+          }
+
+          .image-text-container img {
+              margin-right: 10px;
+              max-width: 200px; /* 设置图片最大宽度为100像素 */
+            max-height: 8.1em; /* 设置图片最大高度为两行文字的高度 */
+          }
+    </style>
+
+    <div>
+      <a href="000identity.html">go home</a>
+  </head>
+
+  <form name="input" action="html_form_action.php" method="get">
+  <div class="image-text-container">
+        <img src="image/waves.gif" alt="Description of Image">
+        <script> document.write("Wish you happy!");</script><br>
+    <script> document.write("Enjoy your gaming time!");</script>
+    </div>
+
+</form>
+
+<body onkeydown="chnn(event.keyCode)"> <!--键盘按键被按下时触发的事件，event.keyCode键盘键码-->
+  <audio id="audio" src="mp3/sound.mp3"></audio>
+  <style>
+      caption {
+          font-size: 1.5em; /* 设置字体大小为1.5em（可以根据需要进行调整）*/
+          color: rgb(73,255,73);
+      }
+      table {
+            background-color: lightblue; /* 设置表格背景颜色为浅蓝色 */
+            border-collapse: collapse; /* 边框合并 */
+            width: 100%; /* 表格宽度100% */
+        }
+
+        th, td {
+            border: 1px solid black; /* 单元格边框 */
+            padding: 8px; /* 单元格内边距 */
+            text-align: center; /* 文本居中对齐 */
+        }
+  </style>
+
+  <table border=1 width=50> <!--带有实线边框且宽度为500像素的表格-->
+  <caption>Круги на воде &#128516; &#128525; &#128151;</caption>
+
+  <tr> <!--行3）-->
+    <td width=300> <!--列1）-->
+      <canvas id='draw' onmousedown="clickme(event.clientX, event.clientY);" width='400'style='border:1px solid'></canvas> 
+      </canvas> 
+    </td>
+
+    <td width=300> <!--列2）-->
+      <form name="set" onsubmit="return false;">
+
+      ClickCircle:<br>
+      <input type="text" name = "ClickCircle"> <br>
+
+      TotalCounts:<br>
+      <input type="text" name = "count"> <br>
+
+      dot:<br>
+      <input type="text" name = "dot"> <br>
+
+        <fieldset> <!--将相关表单元素组织在一起，不同种类的表单元素-->
+          <legend> Color </legend> <!--标题 "Color"-->
+            What color? <br>
+            <!--radio 单选按钮-->
+            <!--checked 将被默认选中-->
+            <!--相同的name="chn2"属性，组成一个单选按钮组，只能一个选项-->
+            <input type="radio" value="green" checked name="chn" onchange="chs(this.value)"> Green <br> 
+            <input type="radio" value="red" name="chn" onchange="chs(this.value)"> Red <br>
+            <input type="radio" value="rgba(0, 0, 255, 0.4)" name="chn" onchange="chs(this.value)"> Blue <br>
+        </fieldset>
+
+
+        <fieldset>
+          <legend> direction </legend>
+            What do you want?<br>
+            <input type="radio"  name="chn1" onchange="dcx=100;dcy=100;dcx1=0;dcy1=0"> on <br>
+            <input type="radio" checked name="chn1" onchange="dcx=0;dcy=0"> off <br>
+        </fieldset>
+
+        <fieldset>
+          <legend> model </legend>
+            What do you want?<br>
+            <input type="radio" checked name="chn2" onchange="k=0"> off <br>
+            <input type="radio" name="chn2" onchange=" k=1"> drawWaves1 <br>
+            <input type="radio" name="chn2" onchange="k=2"> drawWaves2 <br>
+            <input type="radio" name="chn2" onchange=" k=3"> drawWaves3 <br>
+        </fieldset>
+
+
+      </form>
+    </td>
+
+  </tr>
+</table>
+
+<script type='text/javascript'>
+
+  var canvas=document.getElementById("draw")
+  canvas.width=window.innerWidth-300 //浏览器窗口的宽度减去20像素
+  canvas.height=window.innerHeight-200 //浏览器窗口的高度减去20像素
+  var ctx=canvas.getContext("2d"); //获取了canvas元素的2D上下文对象
+                                   //Canvas元素本身只是一个画布，没有直接的绘图功能
+  var totalCircles=0,dr=2,dot=0,count=0
+  var nx=0, ny=0,dcx=0, dcy=0,dcx1=100, dcy1=100,k=0
+  const circles = [];
+
+  function chs(color)
+  {
+    ctx.strokeStyle=color //设置绘制路径时的描边样式
+  }
+
+  function chnn(k) //37左、38上、39右、40下
+  {
+    if((k >= 37) && (k<=40))
+    {
+      nx = (k==37)?-1:(k==39)?1:0
+      ny = (k==38)?-1:(k==40)?1:0
+    }
+  }
+  function playSoundEffect() {
+    var audio = document.getElementById("audio");
+    audio.currentTime = 0; // 重新设置音频播放位置，以确保重复播放
+    audio.play();
+}
+
+  function clickme(x, y){
+    const rect = canvas.getBoundingClientRect();
+    const dx = x - rect.left;
+    const dy = y - rect.top;
+    dot++
+    document.set.dot.value=dot
+    playSoundEffect(); // 每次点击时播放音效
+    addCircle(dx,dy,dr,dot-1)
+  }
+
+  function drawWaves1(x, y, radius) {
+      const waveCount = 10; // 波浪的数量
+      const waveMagnitude = 5; // 波浪的振幅
+      const waveLength = 10; // 波浪的波长
+
+      ctx.beginPath();
+      for (let i = 0; i < waveCount; i++) {
+          // 计算每个波浪的相位
+          const phase = Math.sin((i / waveCount) * Math.PI * 2) * waveLength;
+
+          ctx.moveTo(x + radius, y); // 确定起点位置在圆形的右侧
+          for (let angle = 0; angle <= Math.PI * 2; angle += 0.1) {
+              let waveX = x + Math.cos(angle) * (radius + phase);
+              let waveY = y + Math.sin(angle) * (radius + phase + Math.sin(angle + i / waveCount * Math.PI * 2) * waveMagnitude);
+              ctx.lineTo(waveX, waveY);
+          }
+      }
+      ctx.closePath();
+      ctx.stroke();
+  }
+
+  function drawWaves2(x, y, radius) {
+      const waveCount = 30 // 波浪的数量
+      const waveAmplitude = 5 // 波浪振幅
+      const segments = 100 // 把每个波浪分成多少段
+      const angleStep = (Math.PI * 2) / segments
+
+      ctx.lineWidth = 2 // 线条宽度
+
+      ctx.beginPath()
+
+      for (let i = 0; i < waveCount; i++) {
+          for (let j = 0; j <= segments; j++) {
+              const angle = j * angleStep;
+              const wave = Math.sin(i + j * 0.1) * waveAmplitude
+              const waveX = x + Math.cos(angle) * (radius + wave)
+              const waveY = y + Math.sin(angle) * (radius + wave)
+
+              if (j === 0) {
+                  ctx.moveTo(waveX, waveY)
+              } else {
+                  ctx.lineTo(waveX, waveY)
+              }
+          }
+      }
+
+      ctx.closePath()
+      ctx.stroke()
+  }
+  function drawWaves3(x, y, radius) {
+      const waveLineWidth = 3;
+      const waveFrequency = 0.05; // 波浪频率
+      const waveAmplitude = 5; // 波浪振幅
+        
+      ctx.beginPath();
+      ctx.lineWidth = waveLineWidth;
+
+      for (let angle = 0; angle < Math.PI * 2; angle += 0.1) {
+          const waveX = x + (radius + waveAmplitude * Math.sin(angle * 3 + waveFrequency * Date.now())) * Math.cos(angle);
+          const waveY = y + (radius + waveAmplitude * Math.sin(angle * 3 + waveFrequency * Date.now())) * Math.sin(angle);
+
+          if (angle === 0) {
+              ctx.moveTo(waveX, waveY);
+          } else {
+              ctx.lineTo(waveX, waveY);
+          }
+      }
+
+      ctx.closePath();
+      ctx.stroke();
+  }
+
+  function drawCircle(x, y, radius) {
+    ctx.beginPath()
+    ctx.lineWidth = 2
+    x += nx*dcx1
+    y += ny*dcy1
+    ctx.arc(x, y, radius, 0, 2 * Math.PI)
+    ctx.stroke()
+  }
+
+  function addCircle(x,y,radius,dot) { //dot 0,1
+
+    if (!circles[dot]) {
+      circles[dot] = [] // 如果该行不存在，则创建一个新行
+    }
+
+    const circle = { x, y, radius, dot}
+    circles[dot].push(circle)
+
+    if (circles[dot].length > 6) {
+        circles[dot].splice(1, 1)
+    }
+
+    // 增加半径
+    radius += 20
+    x += nx*dcx
+    y += ny*dcy
+
+    // 清空画布
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    if(k != 0){
+      if(k==1){drawWaves1(x, y, radius)}
+      if(k==2){drawWaves2(x, y, radius)}
+      if(k==3){drawWaves3(x, y, radius)}
+    }
+    
+
+    // 绘制所有的圆形
+    for (var i = 0; i < circles.length; i++) {
+        for (var j = 0; j < circles[i].length; j++) {
+            drawCircle(circles[i][j].x, circles[i][j].y, circles[i][j].radius)
+            if (circles[i][j].x+circles[i][j].radius > canvas.width || circles[i][j].y+circles[i][j].radius > canvas.height) {
+                    circles[i].shift()
+                }
+        }
+        document.set.ClickCircle.value=circles[i].length
+        count = (circles[i].length) *circles.length
+    }
+      document.set.count.value =count
+
+
+    setTimeout(() => {addCircle(x,y,radius,dot);}, 100) // 每隔1秒添加一个圆形
+
+    //requestAnimationFrame(() => {addCircle(x,y,radius,dot,Inside);});
+  }
+    //setInterval(() => {addCircle(x,y,radius,dot,true);}, 100); // 每隔1秒添加一个圆形
+
+
+</script> 
+
+</body>
+</html>

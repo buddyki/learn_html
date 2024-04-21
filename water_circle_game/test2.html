@@ -1,0 +1,74 @@
+<html>
+<body>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Круги на воде</title>
+    <style>
+        #gameCanvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <h1>Круги на воде</h1>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <div>
+        <p>Количество кругов на поле: <span id="circlesOnField">0</span></p>
+        <p>Общее количество кругов в игре: <span id="totalCircles">0</span></p>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const circles = [];
+        const maxCircles = 5;
+        let circlesOnField = 0;
+        let totalCircles = 0;
+
+        function drawCircle(x, y, radius) {
+            ctx.beginPath();
+            ctx.arc(x, y, radius, 0, 2 * Math.PI);
+            ctx.stroke();
+        }
+
+        function update() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 0; i < circles.length; i++) {
+                if (circles[i].radius < canvas.width) {
+                    circles[i].radius += 1;
+                    drawCircle(circles[i].x, circles[i].y, circles[i].radius);
+                }
+            }
+
+            if (circles.length >= maxCircles) {
+                circles.shift();
+            }
+
+            circlesOnField = circles.length;
+            totalCircles += 1;
+            document.getElementById('circlesOnField').innerText = circlesOnField;
+            document.getElementById('totalCircles').innerText = totalCircles;
+        }
+
+        canvas.addEventListener('click', function(event) {
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = event.clientX - rect.left;
+            const mouseY = event.clientY - rect.top;
+
+            if (circles.length < maxCircles) {
+                circles.push({x: mouseX, y: mouseY, radius: 10});
+            } else {
+                circles.shift();
+                circles.push({x: mouseX, y: mouseY, radius: 10});
+            }
+
+            update();
+        });
+
+        setInterval(update, 1000 / 60); // Update every 60 frames per second
+    </script>
+</body>
+</html>

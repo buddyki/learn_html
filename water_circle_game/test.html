@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>水圈游戏</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+        }
+        #gameCanvas {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="600" height="400"></canvas>
+    <div>
+        <p>场上的圆圈数：<span id="currentCircles">0</span></p>
+        <p>游戏中的圆圈总数：<span id="totalCircles">0</span></p>
+    </div>
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        let totalCircles = 0;
+        let circles = [];
+
+        canvas.onclick = function(e) {
+            addCircle(e.offsetX, e.offsetY);
+            totalCircles++;
+            document.getElementById('totalCircles').textContent = totalCircles;
+        };
+
+        function addCircle(x, y) {
+            circles.push({x, y, radius: 0});
+            if (circles.length > 5) {
+                circles.shift();
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            circles.forEach(circle => {
+                circle.radius += 5;
+                ctx.beginPath();
+                ctx.arc(circle.x, circle.y, circle.radius, 0, 2 * Math.PI);
+                ctx.stroke();
+                if (circle.radius > canvas.width || circle.radius > canvas.height) {
+                    circles.shift();
+                }
+            });
+            document.getElementById('currentCircles').textContent = circles.length;
+            requestAnimationFrame(draw);
+        }
+
+        draw();
+    </script>
+</body>
+</html>
